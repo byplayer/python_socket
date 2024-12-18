@@ -1,4 +1,6 @@
 import socket
+import sys
+import traceback
 
 
 class BaseClient:
@@ -19,9 +21,12 @@ class BaseClient:
         while True:
             if message == "":
                 message_send = input("> ")
+                if message_send == "quit":
+                    flag = True
             else:
                 message_send = message
                 flag = True
+
             self.__socket.send(message_send.encode('utf-8'))
             message_recv = self.__socket.recv(self.__buffer).decode('utf-8')
             self.received(message_recv)
@@ -31,7 +36,10 @@ class BaseClient:
             self.__socket.shutdown(socket.SHUT_RDWR)
             self.__socket.close()
         except:
-            pass
+            etype, value, tb = sys.exc_info()
+            print(
+                "socket close exception:" +
+                "\n".join(traceback.format_exception(etype, value, tb)))
 
     def received(self, message: str):
         print(message)
