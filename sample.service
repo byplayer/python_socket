@@ -1,0 +1,12 @@
+[Unit]
+Description=Sample Daemon
+
+[Service]
+WorkingDirectory=/opt/sampled/
+ExecStart=/opt/sampled/.venv/bin/python /opt/sampled/main.py
+Restart=always
+Type=forking
+PIDFile=/opt/sampled/tmp/sampled.pid
+
+[Install]
+WantedBy=multi-user.target
