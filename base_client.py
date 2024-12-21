@@ -1,20 +1,17 @@
 import socket
-import sys
-import traceback
 
 
 class BaseClient:
     def __init__(self, timeout: int = 10, buffer: int = 1024):
         self.__socket = None
-        self.__address = None
         self.__timeout = timeout
         self.__buffer = buffer
 
-    def connect(self, address, family: int, typ: int, proto: int):
-        self.__address = address
-        self.__socket = socket.socket(family, typ, proto)
+    def connect(self, host, port):
+        self.__socket = socket.socket()
         self.__socket.settimeout(self.__timeout)
-        self.__socket.connect(self.__address)
+        addr = socket.getaddrinfo(host, port, 0, socket.SOCK_STREAM)[0][-1]
+        self.__socket.connect(addr)
 
     def send(self, message: str = "") -> None:
         flag = False
@@ -38,11 +35,9 @@ class BaseClient:
         try:
             self.__socket.shutdown(socket.SHUT_RDWR)
             self.__socket.close()
-        except Exception:
-            etype, value, tb = sys.exc_info()
+        except Exception as ex:
             print(
-                "socket close exception:" +
-                "\n".join(traceback.format_exception(etype, value, tb)))
+                f"socket close exception:{type(ex)}:{ex}")
 
     def received(self, message: str):
         print(message)
