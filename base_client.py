@@ -21,11 +21,14 @@ class BaseClient:
         while True:
             if message == "":
                 message_send = input("> ")
-                if message_send == "quit":
+                if message_send == "":
+                    continue
+                print(f"{message_send=}")
+                if message_send == "c":
                     flag = True
             else:
                 message_send = message
-                flag = True
+                # flag = True
 
             self.__socket.send(message_send.encode('utf-8'))
             message_recv = self.__socket.recv(self.__buffer).decode('utf-8')
@@ -35,7 +38,7 @@ class BaseClient:
         try:
             self.__socket.shutdown(socket.SHUT_RDWR)
             self.__socket.close()
-        except:
+        except Exception:
             etype, value, tb = sys.exc_info()
             print(
                 "socket close exception:" +
@@ -43,3 +46,4 @@ class BaseClient:
 
     def received(self, message: str):
         print(message)
+        print(len(message))

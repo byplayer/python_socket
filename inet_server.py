@@ -6,7 +6,7 @@ from blocking_server_base import BlockingServerBase
 
 
 class InetServer(BlockingServerBase):
-    def __init__(self, host: str = "0.0.0.0", port: int = 8099) -> None:
+    def __init__(self, host: str = "0.0.0.0", port: int = 8085) -> None:
         self.server = (host, port)
         super().__init__(timeout=60*60*60, buffer=1024)
         while True:
