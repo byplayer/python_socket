@@ -10,7 +10,8 @@ class BaseClient:
     def connect(self, host, port):
         self.__socket = socket.socket()
         self.__socket.settimeout(self.__timeout)
-        addr = socket.getaddrinfo(host, port, 0, socket.SOCK_STREAM)[0][-1]
+        print(f"{socket.getaddrinfo(host, port, 0, socket.SOCK_STREAM)}")
+        addr = socket.getaddrinfo(host, port, 0, socket.SOCK_STREAM)[-1][-1]
         self.__socket.connect(addr)
 
     def send(self, message: str = "") -> None:

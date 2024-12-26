@@ -2,11 +2,15 @@ import socket
 
 from base_client import BaseClient
 
+HOST = "roboberry.local"
+# HOST = "192.168.11.123"
+PORT = 8085
+
 
 class InetClient(BaseClient):
-    def __init__(self, host: str = "127.0.0.1", port: int = 8085) -> None:
+    def __init__(self, host: str = HOST, port: int = PORT) -> None:
         super().__init__(timeout=60, buffer=4096)
-        super().connect(host, port)
+        self.connect(host, port)
 
 
 if __name__ == "__main__":
